@@ -2,6 +2,7 @@
 name = "uids"
 version = "0.0.0"
 edition = "2021"
+description = "PostgreSQL Extension to generate various type of Unique IDS."
 
 [lib]
 crate-type = ["cdylib"]
