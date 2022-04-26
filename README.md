@@ -3,17 +3,17 @@
 
   
 
-##  1.1. Supported IDs
+##  1. Supported IDs
 
-1. [NanoId](https://github.com/ai/nanoid)
+  1. [NanoId](https://github.com/ai/nanoid)
 
-2. [Ksuid](https://github.com/segmentio/ksuid)
+  2. [Ksuid](https://github.com/segmentio/ksuid)
 
-3. [Ulid](https://github.com/ulid/spec)
+  3. [Ulid](https://github.com/ulid/spec)
 
   
 
-##  1.2. Installation
+##  2. Installation
 
   
 
@@ -21,11 +21,11 @@ TODO
 
   
 
-##  1.3. Functions available
+##  3. Functions available
 
   
 
-###  1.3.1. KSUID -
+###  3.1. KSUID -
 
   
 
@@ -59,7 +59,7 @@ select generate_ksuid_bytes();
 
   
 
-###  1.3.2. NanoId -
+###  3.2. NanoId -
 
   
 
@@ -85,7 +85,7 @@ FfuwjZHjS5j5rATHVyl8M
 
 ```sql
 
-select generate_nanoid(10);
+select generate_nanoid_length(10);
 
 -----------------------------
 
@@ -96,7 +96,7 @@ V2D2D7-dnw
   
   
 
-###  1.3.3. Ulid -
+###  3.3. Ulid -
 
   
 
@@ -127,5 +127,20 @@ select generate_ulid_bytes();
 -----------------------------
 
 \x018064e2bff9e6bb876aa8948e50d9c6
+
+```
+
+
+3. Generate Ulid from a custom string
+
+  
+
+```sql
+
+select generate_ulid_from_string('01CAT3X5Y5G9A62F1rFA6Tnice');
+
+-----------------------------
+
+01CAT3X5Y5G9A62F1RFA6TN1CE
 
 ```

@@ -3,16 +3,8 @@ mod nanoid;
 mod ulid;
 
 use pgx::*;
-use rusty_ulid::Ulid;
-use std::str::FromStr;
 
 pg_module_magic!();
-
-#[pg_extern]
-fn generate_ulid_from_string(from_str: String) -> String {
-    let result = Ulid::from_str(&from_str);
-    return result.unwrap().to_string();
-}
 
 #[cfg(any(test, feature = "pg_test"))]
 #[pg_schema]
@@ -29,7 +21,7 @@ mod tests {
     fn test_generate_ulid_from_string() {
         let ulid_string: String = "01CAT3X5Y5G9A62F1rFA6Tnice".to_string();
         // copy of ulid_string
-        let ulid_from_string: String = crate::generate_ulid_from_string(ulid_string);
+        let ulid_from_string: String = crate::ulid::ulid::generate_ulid_from_string(ulid_string);
         assert_eq!(ulid_from_string, "01CAT3X5Y5G9A62F1RFA6TN1CE");
     }
 
@@ -56,14 +48,14 @@ mod tests {
     // Test nanoid length
     #[pg_test]
     fn test_generate_nanoid_length() {
-        let nanoid_string: String = crate::nanoid::nanoid::generate_nanoid_length(10);
+        let nanoid_string: String = crate::nanoid::nanoid::gen_nanoid_length(10);
         assert_eq!(nanoid_string.len(), 10);
     }
 
     // test nanoid without legnth
     #[pg_test]
     fn test_generate_nanoid() {
-        let nanoid_string: String = crate::nanoid::nanoid::generate_nanoid();
+        let nanoid_string: String = crate::nanoid::nanoid::gen_nanoid();
         assert_eq!(nanoid_string.len(), 21);
     }
 }
