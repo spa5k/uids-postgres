@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  postgres1:
+    build: docker/
+    container_name: postgres
+    restart: "no"
+    working_dir: /application
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=core
+      - POSTGRES_DB=core
+      - POSTGRES_USER=core
+    ports:
+      - "5432:5432"
+    networks:
+      - intranet
+
+networks:
+  intranet:
+
+
+volumes:
+  postgres:
+    name: vol-postgres1

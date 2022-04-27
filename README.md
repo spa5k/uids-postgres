@@ -15,19 +15,47 @@
 
 ##  2. Installation
 
-  
+### 2.1. Installation on non docker environment
 
-TODO
-
+2.1.1. Install rust through rustup.
   
+  ```bash
+curl https://sh.rustup.rs -sSf | sh
+  ```
+2.1.2. Prepare your postgres installation
+2.1.3. Install pgx
+  
+  ```bash
+cargo install cargo-pgx
+  ```
+2.1.4. Initialize pgx for the postgres version you have already installed
+    
+Handle the number accordingly.
+```bash
+cargo pgx init --pg14 $(which pg_config)
+```
+2.1.5. Install the extension
+    
+```bash
+git clone https://github.com/spa5k/uids-postgres \
+&& cd uids-postgres \
+&& cargo pgx install
+```
+
+### 2.2 Installation on docker environment
+
+  Check the included [Dockerfile](./docker/Dockerfile) for the installation template.
 
 ##  3. Functions available
 
+### 3.0. Enable the extension
   
+```sql
+CREATE EXTENSION IF NOT EXISTS uids;
+```
 
 ###  3.1. KSUID -
 
-  
 
 1. Generate a new KSUID
 
