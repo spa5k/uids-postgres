@@ -97,15 +97,26 @@ select generate_nanoid_length(10);
 V2D2D7-dnw
 ```
 
-3. Generate a NanoId with a custom alphabets
+3. Generate a NanoId with a custom alphabets with length of 21
 
 ```sql
 -- Length of the nanoid is first argument, while the alphabets one is second.
-select generate_nanoid_c(10, "1234567890abcdef");
+select generate_nanoid_c('1234567890abcdef');
 
 -----------------------------
 
-4f90d13a42
+6df80ad84587f4a20838c
+```
+
+4. Generate a NanoId with a custom alphabets and custom length
+
+```sql
+-- Length of the nanoid is first argument, while the alphabets one is second.
+select generate_nanoid_length_c(10, '1234567890abcdef');
+
+-----------------------------
+
+050487bff0
 ```
 
 ### 3.3. Ulid -

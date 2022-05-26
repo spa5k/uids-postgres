@@ -1,6 +1,7 @@
 {
   "conventionalCommits.scopes": [
     "main",
-    "readme"
+    "readme",
+    "nanoid"
   ]
 }
