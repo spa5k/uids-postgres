@@ -21,6 +21,12 @@ nanoid = "0.4.0"
 pgx = "0.4.5"
 rusty_ulid = "1.0.0"
 svix-ksuid = "0.6.0"
+uuidv6 = "0.1.1"
+uuid7 = "0.2.6"
+pushid = "0.0.1"
+timeflake-rs = "0.2.4"
+xid = "1.0.2"
+cuid = "1.2.0"
 
 [dev-dependencies]
 pgx-tests = "0.4.5"

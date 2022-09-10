@@ -19,7 +19,7 @@ pub mod ulid_rs {
     }
 
     #[pg_extern]
-    pub fn generate_ulid_from_string(from_str: String) -> String {
+    pub(crate) fn generate_ulid_from_string(from_str: String) -> String {
         let result = Ulid::from_str(&from_str);
         result.unwrap().to_string()
     }

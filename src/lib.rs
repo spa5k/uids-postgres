@@ -1,6 +1,11 @@
+mod cuid;
 mod ksuid;
 mod nanoid;
+mod pushid;
+mod timelfake;
 mod ulid;
+mod uuid;
+mod xid;
 
 use pgx::*;
 
@@ -9,6 +14,7 @@ pg_module_magic!();
 #[cfg(any(test, feature = "pg_test"))]
 #[pg_schema]
 mod tests {
+    use crate::timelfake::timeflake::generate_timeflake;
     use pgx::*;
 
     #[pg_test]
@@ -60,9 +66,58 @@ mod tests {
     }
 
     #[pg_test]
-    fn test_generate_nanoida() {
+    fn test_generate_nanoid_custom() {
         let nanoid_string: String = crate::nanoid::nanoid_rs::generate_nanoid_c("1234567890abcdef");
         assert_eq!(nanoid_string.len(), 21);
+    }
+
+    #[pg_test]
+    fn test_generate_cuid_len() {
+        let generated = crate::cuid::cuid_rs::generate_cuid();
+        assert_eq!(generated.len(), 25);
+    }
+    #[pg_test]
+    fn test_generate_pushid_len() {
+        let generated = crate::pushid::pushid_rs::generate_pushid();
+        assert_eq!(generated.len(), 20);
+    }
+    #[pg_test]
+    fn test_generate_timeflake_len() {
+        let generated = generate_timeflake();
+        assert_eq!(generated.len(), 36);
+    }
+    #[pg_test]
+    fn test_generate_uuidv6_len() {
+        let generated = crate::uuid::uuid_rs::generate_uuidv6();
+        assert_eq!(generated.len(), 36);
+    }
+
+    /// Check version integer in UUID string
+    #[pg_test]
+    fn test_generate_uuidv6_version_int() {
+        let generated = crate::uuid::uuid_rs::generate_uuidv6();
+        let c9 = generated.chars().nth(14);
+        assert!(c9.is_some());
+        assert_eq!(c9.unwrap(), '6');
+    }
+    #[pg_test]
+    fn test_generate_uuidv7_len() {
+        let generated = crate::uuid::uuid_rs::generate_uuidv7();
+        assert_eq!(generated.len(), 36);
+    }
+
+    /// Check version integer in UUID string
+    #[pg_test]
+    fn test_generate_uuidv7_version_int() {
+        let generated = crate::uuid::uuid_rs::generate_uuidv7();
+        let c9 = generated.chars().nth(14);
+        assert!(c9.is_some());
+        assert_eq!(c9.unwrap(), '7');
+    }
+    #[pg_test]
+    fn test_xid_len() {
+        let generated = crate::xid::xid_rs::generate_xid();
+        assert_eq!(generated.len(), 20);
     }
 }
 
