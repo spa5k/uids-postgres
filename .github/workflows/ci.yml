@@ -3,9 +3,6 @@ on:
   pull_request:
     branches: [main, rewrite]
     types: [opened, reopened, synchronize]
-  push:
-    branches: [main, rewrite]
-    tags: ["*"]
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
