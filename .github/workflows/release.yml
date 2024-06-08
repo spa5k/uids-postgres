@@ -1,7 +1,7 @@
 env:
-  NAME: uids_postgres
+  NAME: pgrx-uids_postgres
   EXT_NAME: uids_postgres
-  PKG_NAME: uids_postgres
+  PKG_NAME: pg-uids_postgres
 
 name: Release
 
