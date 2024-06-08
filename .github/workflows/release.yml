@@ -2,12 +2,16 @@ env:
   NAME: uids_postgres
   EXT_NAME: uids_postgres
   PKG_NAME: uids_postgres
+
 name: Release
+
 on:
   push:
     tags: [v*]
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   create-release:
     name: Create release
@@ -19,14 +23,14 @@ jobs:
         id: create-release
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
+
   build-linux-gnu:
     name: Build & Release for linux
-    needs:
-      - create-release
+    needs: create-release
     strategy:
       fail-fast: false
       matrix:
@@ -39,8 +43,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Install rust
         uses: dtolnay/rust-toolchain@1.78.0
+
       - name: Install dependencies
         run: |
           # Add postgres package repo
@@ -58,12 +64,12 @@ jobs:
           # Ensure installed pg_config is first on path
           export PATH=$PATH:/usr/lib/postgresql/${{ matrix.postgres }}/bin
 
-          cargo install cargo-pgrx --version 0.11.2 --locked
+          cargo install cargo-pgrx --version 0.11.4 --locked
           cargo pgrx init --pg${{ matrix.postgres }}=/usr/lib/postgresql/${{ matrix.postgres }}/bin/pg_config
+
       - name: Build artifacts
         run: |
           # selects the pgVer from pg_config on path
-          # https://github.com/tcdi/pgrx/issues/288
           cargo pgrx package --no-default-features --features pg${{ matrix.postgres }}
 
           # Create installable package
@@ -107,10 +113,11 @@ jobs:
           sudo chown -R root:root package
           sudo chmod -R 00755 package
           sudo dpkg-deb -Zxz --build --root-owner-group package
+
       - name: Upload artifacts
         uses: actions/upload-release-asset@v1
         env:
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: ./package.deb
