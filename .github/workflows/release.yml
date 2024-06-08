@@ -31,14 +31,7 @@ jobs:
   build-linux-gnu:
     name: Build & Release for linux
     needs: create-release
-    strategy:
-      fail-fast: false
-      matrix:
-        postgres: [14, 15, 16]
-        box:
-          - runner: ubuntu-24.04
-            arch: amd64
-    runs-on: ${{ matrix.box.runner }}
+    runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
       - name: Checkout
@@ -58,19 +51,19 @@ jobs:
           sudo apt-get install -y --no-install-recommends libreadline-dev zlib1g-dev flex bison libxml2-dev libxslt-dev libssl-dev libxml2-utils xsltproc ccache
           sudo apt-get install -y --no-install-recommends clang libclang-dev llvm-dev gcc tree
 
-          # Install requested postgres version
-          sudo apt-get install -y postgresql-${{ matrix.postgres }} postgresql-server-dev-${{ matrix.postgres }} -y
+          # Install PostgreSQL v16
+          sudo apt-get install -y postgresql-16 postgresql-server-dev-16 -y
 
           # Ensure installed pg_config is first on path
-          export PATH=$PATH:/usr/lib/postgresql/${{ matrix.postgres }}/bin
+          export PATH=$PATH:/usr/lib/postgresql/16/bin
 
           cargo install cargo-pgrx --version 0.11.4 --locked
-          cargo pgrx init --pg${{ matrix.postgres }}=/usr/lib/postgresql/${{ matrix.postgres }}/bin/pg_config
+          cargo pgrx init --pg16=/usr/lib/postgresql/16/bin/pg_config
 
       - name: Build artifacts
         run: |
           # selects the pgVer from pg_config on path
-          cargo pgrx package --no-default-features --features pg${{ matrix.postgres }}
+          cargo pgrx package --no-default-features --features pg16
 
           # Create installable package
           mkdir archive
@@ -84,13 +77,13 @@ jobs:
           cp archive/*.sql package/var/lib/postgresql/extension
 
           # symlinks to Copy files into directory structure
-          mkdir -p package/usr/lib/postgresql/${{ matrix.postgres }}/lib
-          cd package/usr/lib/postgresql/${{ matrix.postgres }}/lib
+          mkdir -p package/usr/lib/postgresql/16/lib
+          cd package/usr/lib/postgresql/16/lib
           cp -s ../../lib/*.so .
           cd ../../../../../..
 
-          mkdir -p package/usr/share/postgresql/${{ matrix.postgres }}/extension
-          cd package/usr/share/postgresql/${{ matrix.postgres }}/extension
+          mkdir -p package/usr/share/postgresql/16/extension
+          cd package/usr/share/postgresql/16/extension
 
           cp -s ../../../../../var/lib/postgresql/extension/${{ env.EXT_NAME }}.control .
           cp -s ../../../../../var/lib/postgresql/extension/${{ env.EXT_NAME }}*.sql .
@@ -105,7 +98,7 @@ jobs:
           touch package/DEBIAN/control
           echo 'Package: ${{ env.PKG_NAME }}' >> package/DEBIAN/control
           echo 'Version:' ${deb_version} >> package/DEBIAN/control
-          echo 'Architecture: ${{ matrix.box.arch }}' >> package/DEBIAN/control
+          echo 'Architecture: amd64' >> package/DEBIAN/control
           echo 'Maintainer: Spark' >> package/DEBIAN/control
           echo 'Description: A PostgreSQL extension for Various IDS' >> package/DEBIAN/control
 
@@ -121,5 +114,5 @@ jobs:
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
           asset_path: ./package.deb
-          asset_name: ${{ env.NAME }}-${{ github.ref_name }}-pg${{ matrix.postgres }}-${{ matrix.box.arch }}-linux-gnu.deb
+          asset_name: ${{ env.NAME }}-${{ github.ref_name }}-pg16-amd64-linux-gnu.deb
           asset_content_type: application/vnd.debian.binary-package
