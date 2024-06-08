@@ -21,12 +21,12 @@ jobs:
       matrix:
         postgres: [14, 15, 16]
         runner:
-          - ubuntu-22.04
+          - ubuntu-24.04
           - buildjet-8vcpu-ubuntu-2204-arm
     runs-on: ${{ matrix.runner }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build
         run: docker buildx build --build-arg PG_MAJOR=${{ matrix.postgres }} -t test .
       - name: Test
@@ -36,11 +36,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install rust
-        uses: dtolnay/rust-toolchain@1.74.0
+        uses: dtolnay/rust-toolchain@1.78.0
         with:
           components: rustfmt, clippy
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Format check
         uses: actions-rs/cargo@v1
         with:
@@ -51,8 +51,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install rust
-        uses: dtolnay/rust-toolchain@1.74.0
+        uses: dtolnay/rust-toolchain@1.78.0
       - name: Lockfile check
         run: cargo update -w --locked
