@@ -34,8 +34,6 @@ jobs:
         box:
           - runner: ubuntu-22.04
             arch: amd64
-          - runner: buildjet-8vcpu-ubuntu-2204-arm
-            arch: arm64
     runs-on: ${{ matrix.box.runner }}
     timeout-minutes: 45
     steps:
