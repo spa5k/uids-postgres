@@ -1,4 +1,4 @@
-FROM postgres:14
+FROM postgres:16
 RUN apt-get update && apt-get upgrade -y
 
 ENV build_deps ca-certificates \
@@ -13,10 +13,10 @@ ENV build_deps ca-certificates \
 
 RUN apt-get install -y --no-install-recommends $build_deps pkg-config cmake
 
-WORKDIR /home/spark
+WORKDIR /home/spa5k
 
-ENV HOME=/home/spark \
-  PATH=/home/spark/.cargo/bin:$PATH
+ENV HOME=/home/spa5k \
+  PATH=/home/spa5k/.cargo/bin:$PATH
 RUN chown postgres:postgres /home/spark
 USER postgres
 
@@ -27,9 +27,9 @@ RUN \
   cargo --version
 
 # PGX
-RUN cargo install cargo-pgx
+RUN cargo install cargo-pgrx
 
-RUN cargo pgx init --pg14 $(which pg_config)
+RUN cargo pgx init --pg16 $(which pg_config)
 
 USER root
 

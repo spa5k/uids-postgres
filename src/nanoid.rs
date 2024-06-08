@@ -1,6 +1,6 @@
 pub mod nanoid_rs {
     use nanoid::nanoid;
-    use pgx::*;
+    use pgrx::prelude::*;
 
     #[pg_extern]
     pub(crate) fn generate_nanoid() -> String {
@@ -29,5 +29,33 @@ pub mod nanoid_rs {
         let alphabets_vec = alphabets.chars().collect::<Vec<char>>();
         let id = nanoid!(21, &alphabets_vec);
         id
+    }
+
+    // tests
+    #[cfg(any(test, feature = "pg_test"))]
+    #[pgrx::pg_schema]
+    mod tests {
+        use pgrx::pg_test;
+
+        // Test Nanoid length
+        #[pg_test]
+        fn test_generate_nanoid_length() {
+            let nanoid_string: String = crate::nanoid::nanoid_rs::generate_nanoid_length(10);
+            assert_eq!(nanoid_string.len(), 10);
+        }
+
+        // test nanoid without legnth
+        #[pg_test]
+        fn test_generate_nanoid() {
+            let nanoid_string: String = crate::nanoid::nanoid_rs::generate_nanoid();
+            assert_eq!(nanoid_string.len(), 21);
+        }
+
+        #[pg_test]
+        fn test_generate_nanoid_custom() {
+            let nanoid_string: String =
+                crate::nanoid::nanoid_rs::generate_nanoid_c("1234567890abcdef");
+            assert_eq!(nanoid_string.len(), 21);
+        }
     }
 }
