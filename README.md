@@ -21,25 +21,25 @@ Using the `uids-postgres` extension for generating unique IDs in PostgreSQL offe
 The extension supports multiple methodologies for generating unique IDs, including UUID v6, UUID v7, NanoId, Ksuid, Ulid, Timeflake, PushId, and Cuid2. This flexibility allows you to choose the most suitable ID generation strategy for your specific use case, whether you need time-based IDs, lexicographically sortable IDs, or IDs with custom prefixes.
 
 ### 2. **Enhanced Data Integrity and Uniqueness**
-Using unique identifiers like UUIDs ensures data integrity and uniqueness across distributed systems. This is particularly important for applications that require federated data or need to avoid collisions in a multi-node environment [2].
+Using unique identifiers like UUIDs ensures data integrity and uniqueness across distributed systems. This is particularly important for applications that require federated data or need to avoid collisions in a multi-node environment.
 
 ### 3. **Performance and Efficiency**
-Generating unique IDs within the database can be more efficient than handling this in the application layer. This reduces the overhead of network communication and ensures that ID generation is consistent and centralized [1].
+Generating unique IDs within the database can be more efficient than handling this in the application layer. This reduces the overhead of network communication and ensures that ID generation is consistent and centralized.
 
 ### 4. **Ease of Use**
 The extension provides simple SQL functions to generate and validate various types of unique IDs. This makes it easy to integrate into existing SQL workflows without requiring significant changes to your application code.
 
 ### 5. **Compliance and Security**
-For applications that require compliance with data security standards, using IDs like UUIDs can help meet these requirements. The extension ensures that IDs are generated in a secure manner, reducing the risk of predictable or duplicate IDs [1].
+For applications that require compliance with data security standards, using IDs like UUIDs can help meet these requirements. The extension ensures that IDs are generated in a secure manner, reducing the risk of predictable or duplicate IDs.
 
 ### 6. **Community and Ecosystem**
-PostgreSQL has a rich ecosystem of extensions that enhance its capabilities. By using `uids-postgres`, you leverage the power of PostgreSQL's extensibility, allowing you to tailor your database to meet specific needs without altering its core architecture [4].
+PostgreSQL has a rich ecosystem of extensions that enhance its capabilities. By using `uids-postgres`, you leverage the power of PostgreSQL's extensibility, allowing you to tailor your database to meet specific needs without altering its core architecture.
 
 ### 7. **Scalability**
-Unique IDs like UUIDs and Ksuid are designed to be scalable and can handle large volumes of data efficiently. This is crucial for applications that need to maintain good performance as they grow to handle billions of rows [1].
+Unique IDs like UUIDs and Ksuid are designed to be scalable and can handle large volumes of data efficiently. This is crucial for applications that need to maintain good performance as they grow to handle billions of rows.
 
 ### 8. **Compatibility with Modern Applications**
-Many modern applications, especially those involving microservices, distributed systems, and IoT, benefit from using unique identifiers. The `uids-postgres` extension supports various ID types that are well-suited for these environments, ensuring compatibility and ease of integration [4].
+Many modern applications, especially those involving microservices, distributed systems, and IoT, benefit from using unique identifiers. The `uids-postgres` extension supports various ID types that are well-suited for these environments, ensuring compatibility and ease of integration.
 
 By using the `uids-postgres` extension, you can enhance your PostgreSQL database with robust, flexible, and efficient unique ID generation capabilities, making it a valuable tool for a wide range of applications.
 
@@ -51,16 +51,16 @@ Choosing ULID or TypeID/ etc over UUID can offer several advantages depending on
 ### Advantages of ULID over UUID
 
 1. **Lexicographical Sortability**
-   - ULIDs are designed to be lexicographically sortable, which means they can be sorted in alphabetical order. This is particularly useful for databases and systems that need to quickly sort and search large numbers of identifiers [1][2].
+   - ULIDs are designed to be lexicographically sortable, which means they can be sorted in alphabetical order. This is particularly useful for databases and systems that need to quickly sort and search large numbers of identifiers.
 
 2. **Faster Generation**
-   - ULIDs use a cryptographically secure pseudorandom number generator (CSPRNG) for the random component, which is faster than the method used for generating UUIDs. Benchmarks have shown that ULID generation can be up to 50% faster than UUID generation, making them suitable for high-volume environments [1].
+   - ULIDs use a cryptographically secure pseudorandom number generator (CSPRNG) for the random component, which is faster than the method used for generating UUIDs. Benchmarks have shown that ULID generation can be up to 50% faster than UUID generation, making them suitable for high-volume environments.
 
 3. **Compactness and URL-Safety**
-   - ULIDs are more compact, requiring only 26 characters compared to UUIDs' 36 characters. They are also URL-safe, meaning they can be used in URLs without the need for encoding or escaping, which is beneficial for web applications and APIs [1][2].
+   - ULIDs are more compact, requiring only 26 characters compared to UUIDs' 36 characters. They are also URL-safe, meaning they can be used in URLs without the need for encoding or escaping, which is beneficial for web applications and APIs.
 
 4. **Timestamp Encoding**
-   - ULIDs include a timestamp component, which allows them to be sorted by creation order. This feature is useful for tracking the order of events in distributed systems and for data partitioning and indexing in NoSQL databases [2].
+   - ULIDs include a timestamp component, which allows them to be sorted by creation order. This feature is useful for tracking the order of events in distributed systems and for data partitioning and indexing in NoSQL databases.
 
 ### Advantages of TypeID over UUID
 
@@ -73,10 +73,10 @@ Choosing ULID or TypeID/ etc over UUID can offer several advantages depending on
 ### When to Use UUID
 
 1. **Cryptographic Security**
-   - If your application requires identifiers that are truly random and have no predictable pattern, such as for cryptographic or security purposes, UUIDs are a better choice. ULIDs, by design, are not intended to be cryptographically secure and should not be used for sensitive applications [1].
+   - If your application requires identifiers that are truly random and have no predictable pattern, such as for cryptographic or security purposes, UUIDs are a better choice. ULIDs, by design, are not intended to be cryptographically secure and should not be used for sensitive applications.
 
 2. **Standardization**
-   - UUIDs are standardized by RFC 4122, which means they are widely supported and recognized across different systems and platforms. This can be important when working with vendors or integrating with third-party systems [2].
+   - UUIDs are standardized by RFC 4122, which means they are widely supported and recognized across different systems and platforms. This can be important when working with vendors or integrating with third-party systems.
 
 ### Summary
 
@@ -156,40 +156,9 @@ This Postgres extension is made possible thanks to [`pgrx`][pgrx].
 
 ## Installation
 
-Use [pgrx][https://github.com/pgcentralfoundation/pgrx]. You can clone this repo and install this extension locally by following [this guide](https://github.com/pgcentralfoundation/pgrx/blob/develop/cargo-pgrx/README.md#installing-your-extension-locally).
+Use [pgrx](https://github.com/pgcentralfoundation/pgrx). You can clone this repo and install this extension locally by following [this guide](https://github.com/pgcentralfoundation/pgrx/blob/develop/cargo-pgrx/README.md#installing-your-extension-locally).
 
 You can also download relevant files from [releases](https://github.com/spa5k/uids-postgres/releases) page.
-
-
-### Non-Docker Environment
-
-1. **Install Rust via rustup:**
-
-    ```bash
-    curl https://sh.rustup.rs -sSf | sh
-    ```
-
-2. **Prepare your PostgreSQL installation.**
-
-3. **Install pgx:**
-
-    ```bash
-    cargo install cargo-pgx
-    ```
-
-4. **Initialize pgx for your PostgreSQL version:**
-
-    ```bash
-    cargo pgx init --pg14 $(which pg_config)
-    ```
-
-5. **Clone the repository and install the extension:**
-
-    ```bash
-    git clone https://github.com/spa5k/uids-postgres
-    cd uids-postgres
-    cargo pgx install
-    ```
 
 ### Docker Environment
 
@@ -528,31 +497,25 @@ This setup provides a comprehensive set of functions to generate and validate va
 
 
 ### References
-- [1] Timescale Blog: Top 8 PostgreSQL Extensions
-- [2] Stack Overflow: What is uuid-ossp in Postgres
-- [4] Dev.to: Exploring PostgreSQL Extensions
-- [5] Medium: UUID vs ULID, How ULID improves write speeds
-- [6] Solwey: IDs: Integer Vs UUID Vs ULID
+- [Timescale Blog: Top 8 PostgreSQL Extensions](https://www.timescale.com/blog/top-8-postgresql-extensions/)
+- [Stack Overflow: What is uuid-ossp in Postgres](https://stackoverflow.com/questions/21709800/what-is-uuid-ossp-in-postgres)
+- [Dev.to: Exploring PostgreSQL Extensions](https://dev.to/nilelazarus/exploring-postgresql-extensions-enhance-your-database-capabilities-576o)
+- [Medium: UUID vs ULID, How ULID improves write speeds](https://medium.com/@sammaingi5/uuid-vs-ulid-how-ulid-improves-write-speeds-d16b23505458)
+- [Solwey: IDs: Integer Vs UUID Vs ULID](https://www.solwey.com/posts/ids-integer-vs-uuid-vs-ulid)
+- https://github.com/fboulnois/pg_uuidv7
+- https://www.postgresql.org/docs/current/uuid-ossp.html
+- https://dba.stackexchange.com/questions/102448/how-should-i-index-a-uuid-in-postgres
+- https://pganalyze.com/blog/5mins-postgres-uuid-vs-serial-primary-keys
+- https://news.ycombinator.com/item?id=36429986
+- https://www.postgresql.org/docs/current/extend-extensions.html
+- https://medium.com/@sammaingi5/uuid-vs-ulid-how-ulid-improves-write-speeds-d16b23505458
+- https://www.solwey.com/posts/ids-integer-vs-uuid-vs-ulid
+- https://news.ycombinator.com/item?id=40016413
+- https://www.reddit.com/r/programming/comments/1ckklm9/why_choose_ulids_over_traditional_uuids_or_ids/
+- https://www.linkedin.com/pulse/should-i-use-uuid-ulid-unique-ids-systems-pablo-puma-ihdoc
+- https://dev.to/0xfedev/the-uniquity-chronicles-exploring-the-cosmos-of-unique-id-algorithms-31d6
+- https://blog.hassam.dev/ulid-uuid-integer-ids/
+- https://github.com/jetify-com/typeid
+- https://stackoverflow.com/questions/59919519/mysql-is-an-unique-index-necessary-on-a-uuid-column
 
-Citations:
-- [1] https://www.timescale.com/blog/top-8-postgresql-extensions/
-- [2] https://stackoverflow.com/questions/21709800/what-is-uuid-ossp-in-postgres
-- [3] https://www.reddit.com/r/PostgreSQL/comments/mi78aq/any_significant_performance_disadvantage_to_using/
-- [4] https://dev.to/nilelazarus/exploring-postgresql-extensions-enhance-your-database-capabilities-576o
-- [5] https://github.com/fboulnois/pg_uuidv7
-- [6] https://www.postgresql.org/docs/current/uuid-ossp.html
-- [7] https://dba.stackexchange.com/questions/102448/how-should-i-index-a-uuid-in-postgres
-- [8] https://pganalyze.com/blog/5mins-postgres-uuid-vs-serial-primary-keys
-- [9] https://news.ycombinator.com/item?id=36429986
-- [10] https://www.postgresql.org/docs/current/extend-extensions.html
-- [11] https://medium.com/@sammaingi5/uuid-vs-ulid-how-ulid-improves-write-speeds-d16b23505458
-- [12] https://www.solwey.com/posts/ids-integer-vs-uuid-vs-ulid
-- [13] https://news.ycombinator.com/item?id=40016413
-- [14] https://www.reddit.com/r/programming/comments/1ckklm9/why_choose_ulids_over_traditional_uuids_or_ids/
-- [15] https://www.linkedin.com/pulse/should-i-use-uuid-ulid-unique-ids-systems-pablo-puma-ihdoc
-- [16] https://dev.to/0xfedev/the-uniquity-chronicles-exploring-the-cosmos-of-unique-id-algorithms-31d6
-- [17] https://blog.hassam.dev/ulid-uuid-integer-ids/
-- [18] https://github.com/jetify-com/typeid
-- [19] https://stackoverflow.com/questions/59919519/mysql-is-an-unique-index-necessary-on-a-uuid-column
-
-> In recent additions to this project, the new ids, and the dockerfile were taken from (pgx_ulid)[https://github.com/pksunkara/pgx_ulid], alongside some help from  (pg_idkit)[https://github.com/VADOSWARE/pg_idkit].
+> In recent additions to this project, the new ids, and the dockerfile were taken from [pgx_ulid](https://github.com/pksunkara/pgx_ulid), alongside some help from  [pg_idkit](https://github.com/VADOSWARE/pg_idkit).
