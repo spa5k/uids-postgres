@@ -34,8 +34,6 @@ jobs:
         box:
           - runner: ubuntu-22.04
             arch: amd64
-          - runner: buildjet-8vcpu-ubuntu-2204-arm
-            arch: arm64
     runs-on: ${{ matrix.box.runner }}
     timeout-minutes: 45
     steps:
@@ -60,7 +58,7 @@ jobs:
           # Ensure installed pg_config is first on path
           export PATH=$PATH:/usr/lib/postgresql/${{ matrix.postgres }}/bin
 
-          cargo install cargo-pgrx --version 0.11.2 --locked
+          cargo install cargo-pgrx --version 0.11.4 --locked
           cargo pgrx init --pg${{ matrix.postgres }}=/usr/lib/postgresql/${{ matrix.postgres }}/bin/pg_config
       - name: Build artifacts
         run: |
